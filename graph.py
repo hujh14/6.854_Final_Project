@@ -32,4 +32,3 @@ class Graph:
                 neighbors.append(self.nodes[coord])
         return neighbors
 
-
