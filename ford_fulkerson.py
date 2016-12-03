@@ -74,7 +74,7 @@ class FlowNetwork(object):
             if u == sink:
                 return self.make_BFS_Path(parent, source, sink)
             for e in self.get_edges(source):
-                residual = e.capacity - self.flow[e]
+                residual = e.getCapacity() - self.flow[e]
                 if not(visited[e.getSink()]) and  residual > 0:
                     queue.append(e.getSink())
                     visited[e.getSink()] = True
@@ -91,14 +91,14 @@ class FlowNetwork(object):
         return path
  
     def max_flow(self, source, sink):
-        path = self.find_DFS_path(source, sink, [])
+        path = self.find_BFS_path(source, sink)
         while path != None:
             residuals = [edge.getCapacity() - self.flow[edge] for edge in path]
             flow = min(residuals)
             for edge in path:
                 self.flow[edge] += flow
                 self.flow[edge.redge] -= flow
-            path = self.find_DFS_path(source, sink, [])
+            path = self.find_BFS_path(source, sink)
         return sum(self.flow[edge] for edge in self.get_edges(source))
 
     def get_min_cut(self):
@@ -114,12 +114,11 @@ n3 = Node((0,3), color)
 n4 = Node((0,4), color)
 t = Node((0,100), color)
 
-s.addNeighborWithWeight(n1, 3)
-s.addNeighborWithWeight(n2, 20)
-n1.addNeighborWithWeight(n3, 10)
-n2.addNeighborWithWeight(n4, 11)
-n2.addNeighborWithWeight(n3, 5)
-n3.addNeighborWithWeight(t, 16)
+s.addNeighborWithWeight(n1, 2)
+s.addNeighborWithWeight(n2, 3)
+n1.addNeighborWithWeight(n3, 1)
+n2.addNeighborWithWeight(n3, 4)
+n3.addNeighborWithWeight(t, 6)
 n4.addNeighborWithWeight(t, 4)
 
 g = FlowNetwork()
@@ -127,7 +126,6 @@ g.add_vertex(s)
 g.add_vertex(n1)
 g.add_vertex(n2)
 g.add_vertex(n3)
-g.add_vertex(n4)
 g.add_vertex(t)
 
 print g.max_flow(s,t)
