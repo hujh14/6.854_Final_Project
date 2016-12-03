@@ -1,11 +1,21 @@
 from node import *
 
 class Edge:
-    def __init__(self, n1, n2):
-        self.n1 = n1
-        self.n2 = n2
-        # self.weight = self.computeWeight(n1,n2)
-        self.cap = self.computeCapacity(n1,n2)
+    def __init__(self, u, v, w):
+        self.u = u
+        self.v = v
+        self.w = w
 
-    def computeCapacity(self,n1,n2):
-        return 1
+    def computeWeight(self):
+        #computes weight of neighbor link for pixels
+        self.w = 1
+        return self.w
+    
+    def getSource(self):
+        return self.u
+        
+    def getSink(self):
+        return self.v
+    
+    def getCapacity(self):
+        return self.w

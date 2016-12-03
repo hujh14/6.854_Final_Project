@@ -1,9 +1,11 @@
+from node import *
+
 class ImageGraph:
     def __init__(self, pixels):
         self.pixels = pixels
         self.height, self.width,self.colors = pixels.shape
 
-        self.nodes = {}
+        self.nodes = {} # dictionary of loc --> node
         self.createNodes()
 
     def createNodes(self):
@@ -18,10 +20,10 @@ class ImageGraph:
             for j in xrange(self.width):
                 loc = (i,j)
                 node = self.nodes[loc]
-                neighbors = self.findNeighbors(loc)
-                node.addNeighbors(neighbors)
+                neighbors = self.findPixelNeighbors(loc)
+                node.addPixelNeighbors(neighbors)
 
-    def findNeighbors(self, loc):
+    def findPixelNeighbors(self, loc):
         neighbors = []
         i,j = loc
         coords = [(i-1,j-1),(i,j-1),(i-1,j+1),(i,j-1),(i,j+1),(i+1,j-1),(i+1,j),(i+1,j+1)]
@@ -30,11 +32,5 @@ class ImageGraph:
                 neighbors.append(self.nodes[coord])
         return neighbors
 
-    def getNodesList():
-        output = []
-        for loc in self.nodes.keys():
-            output.append(self.nodes[loc])
-        return output
-
-    def getEdgesList():
-        
+    def getNodes(self):
+        return self.nodes.values()
