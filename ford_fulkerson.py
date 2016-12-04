@@ -13,7 +13,6 @@ class FlowNetwork(object):
         for node in nodes:
             self.add_vertex(node)
             
-        
     def add_vertex(self, node):
         for edge in node.getOutgoingEdges():
             redge = Edge(edge.getSink(), edge.getSource(), 0)  
@@ -100,7 +99,23 @@ class FlowNetwork(object):
                 self.flow[edge.redge] -= flow
             path = self.find_DFS_path(source, sink, [])
         return sum(self.flow[edge] for edge in self.get_edges(source))
+        
+    def find_blocking_edge(self, source, sink, blocking_edges, path):
+        if source==sink:
+            return "S-T CUT FAILED"
+        
+        for edge in self.get_edges(source):
+            residual = edge.getCapacity() - self.flow[edge]
+            if residual > 0 and edge not in path:
+                result = self.find_blocking_edge(edge.getSink(), sink, blocking_edges, path + [edge]) 
+                if result != None:
+                    return result
+            elif residual == 0:
+                blocking_edges.add(edge)                     
 
-    def get_min_cut(self):
-        #TODO
-        return None
+    def get_min_cut(self, source, sink):
+        #start at t, try to reach edges with 0 residual
+        self.max_flow(source, sink)
+        min_cut_edges = set()
+        self.find_blocking_edge(source, sink, min_cut_edges, [])
+        return min_cut_edges

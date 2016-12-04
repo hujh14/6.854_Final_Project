@@ -27,4 +27,13 @@ g.add_vertex(n3)
 g.add_vertex(n4)
 g.add_vertex(t)
 
-print g.max_flow(s,t)
+cut = g.get_min_cut(s,t)
+cut_val = 0
+
+for edge in cut:
+    cut_val += edge.getCapacity()    
+    
+print "Cut: " + str(cut_val)
+
+for edge in cut:
+    print "edge: " + str(edge) + " capacity: " + str(edge.getCapacity())
