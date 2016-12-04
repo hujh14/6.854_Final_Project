@@ -1,36 +1,28 @@
 from node import *
 
+import random
+
 class Graph:
-    def __init__(self, pixels):
-        self.pixels = pixels
-        self.height, self.width,self.colors = pixels.shape
+    def __init__(self):
+        self.nodes = set()
+        self.edges = set()
 
-        self.nodes = {} # dictionary of loc --> node
-        self.createNodes()
+        self.outgoingEdges = {}
 
-    def createNodes(self):
-        for i in xrange(self.height):
-            for j in xrange(self.width):
-                color = self.pixels[i][j]
-                loc = (i,j)
-                node = Node(loc, color)
-                self.nodes[loc] = node
+    def addNode(self, node):
+        self.nodes.add(node)
 
-        for i in xrange(self.height):
-            for j in xrange(self.width):
-                loc = (i,j)
-                node = self.nodes[loc]
-                neighbors = self.findPixelNeighbors(loc)
-                node.addPixelNeighbors(neighbors)
+    def addEdge(self, edge):
+        self.edges.add(edge)
+        self.outgoingEdges[edge.u].append(edge)
 
-    def findPixelNeighbors(self, loc):
-        neighbors = []
-        i,j = loc
-        coords = [(i-1,j-1),(i,j-1),(i-1,j+1),(i,j-1),(i,j+1),(i+1,j-1),(i+1,j),(i+1,j+1)]
-        for coord in coords:
-            if not (coord[0] < 0 or coord[0] >= self.width or coord[1] < 0 or coord[1] >= self.height):
-                neighbors.append(self.nodes[coord])
-        return neighbors
+    def randomNodes(self, n):
+        return random.sample(self.nodes, n)
 
-    def getNodes(self):
-        return self.nodes.values()
+    # def copy(self):
+    #     output = Graph()
+    #     for node in self.nodes:
+    #         output.addNode(node)
+    #     for e in self.edges:
+    #         output.addEdge(e)
+    #     return output
