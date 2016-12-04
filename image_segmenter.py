@@ -1,5 +1,6 @@
 from ford_fulkerson import FlowNetwork
 from image_graph import ImageGraph
+import numpy as np
 
 import numpy as np
 
