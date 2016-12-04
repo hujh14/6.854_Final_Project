@@ -8,7 +8,7 @@ def resize_images(dir_path, output_dir_path):
             image_path = os.path.join(dir_path, filename)
             resize_image(image_path, output_dir_path)
 
-def resize_image(image_path, output_dir_path, height=128, width=128):
+def resize_image(image_path, output_dir_path, height=32, width=32):
     image_number = os.path.basename(image_path).split("_")[0]
     output_image_name = "{}_ori.png".format(image_number)
     output_path = os.path.join(output_dir_path, output_image_name)
@@ -19,6 +19,6 @@ def resize_image(image_path, output_dir_path, height=128, width=128):
 
 
 dir_path = "./images/imagenet"
-output_path = "./images/imagenet_128"
+output_path = "./images/imagenet_32"
 
-resize_images(dir_path, output_path, height=128, width=128)
+resize_images(dir_path, output_path)

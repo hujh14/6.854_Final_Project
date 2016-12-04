@@ -45,3 +45,6 @@ class ImageGraph:
             if not (coord[0] < 0 or coord[0] >= self.width or coord[1] < 0 or coord[1] >= self.height):
                 neighborCoords.append(coord)
         return neighborCoords
+
+    def randomNodes(self, n):
+        return self.graph.randomNodes(n)
