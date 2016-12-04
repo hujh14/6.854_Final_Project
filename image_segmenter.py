@@ -24,8 +24,8 @@ class ImageSegmenter:
             # t = r_nodes[1]
             s_loc = (0,0)
             t_loc = (16,16)
-            s = self.image_graph.locToNodes(s_loc)
-            t = self.image_graph.locToNodes(t_loc)
+            s = self.image_graph.locToNodes[s_loc]
+            t = self.image_graph.locToNodes[t_loc]
             min_cut = self.solver.get_min_cut(self.image_graph.graph, s, t)
 
         for edge in min_cut:
