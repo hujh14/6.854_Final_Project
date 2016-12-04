@@ -140,3 +140,7 @@ class FlowNetwork(object):
         min_cut_edges = set()
         self.find_blocking_edge(source, sink, min_cut_edges, [])
         return min_cut_edges
+        
+    def clear_flow(self):
+        for e in self.flow.keys():
+            self.flow[e] = 0
