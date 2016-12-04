@@ -1,5 +1,6 @@
 from ford_fulkerson import FlowNetwork
 from image_graph import ImageGraph
+import numpy as np
 
 class ImageSegmenter:
 
@@ -19,7 +20,7 @@ class ImageSegmenter:
             r_nodes = self.graph.randomNodes(2)
             s = r_nodes[0]
             t = r_nodes[1]
-            min_cut = self.solver.find_min_cut(graph, s, t)
+            min_cut = self.solver.find_min_cut(self.graph, s, t)
 
         for edge in min_cut:
             u = edge.u
