@@ -1,4 +1,4 @@
-from ford_fulkerson import Ford_Fulkerson
+from ford_fulkerson import Flow_Network
 
 class ImageSegmenter:
 
@@ -7,8 +7,8 @@ class ImageSegmenter:
 
         self.graph = ImageGraph(pixels)
 
-        self.solver = Ford_Fulkerson()
-        self.solver = Blocking_Flows()
+        self.solver = Flow_Network()
+        # self.solver = Blocking_Flows()
 
         self.segmented_image = np.zeros((height, width))
 

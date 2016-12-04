@@ -3,12 +3,10 @@ from node import *
 from edge import *
 
 class FlowNetwork(object):
-    def __init__(self, graph):
+    def __init__(self):
         self.adj = {}
         self.flow = {}
         self.nodes = set()
-
-        self.convertGraph(graph)
 
         # for node in self.g.outgoingEdges.keys():
         #     for edge in self.g.outgoingEdges[node]:
@@ -29,10 +27,10 @@ class FlowNetwork(object):
         #         self.flow[redge] = 0
 
  
-    # def convertImageGraph(self, graph):
-    #     nodes = graph.getNodes()
-    #     for node in nodes:
-    #         self.add_vertex(node)
+    def convertGraph(self, graph):
+        nodes = graph.getNodes()
+        for node in nodes:
+            self.add_vertex(node)
             
         
     def add_vertex(self, node):
