@@ -132,8 +132,8 @@ class FlowNetwork(object):
             elif residual == 0:
                 blocking_edges.add(edge)                     
 
-    def get_min_cut(self, source, sink):
-        #start at t, try to reach edges with 0 residual
+    def get_min_cut(self, graph, source, sink):
+        self.convertGraph(graph)
         self.max_flow(source, sink)
         min_cut_edges = set()
         self.find_blocking_edge(source, sink, min_cut_edges, [])

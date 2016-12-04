@@ -1,4 +1,6 @@
 from node import *
+from edge import *
+from graph import *
 
 class ImageGraph:
     def __init__(self, pixels):
@@ -11,6 +13,7 @@ class ImageGraph:
         self.buildGraph()
 
     def buildGraph(self):
+        print "Building graph..."
         for i in xrange(self.height):
             for j in xrange(self.width):
                 color = self.pixels[i][j]
@@ -18,14 +21,16 @@ class ImageGraph:
                 node = Node(loc, color)
                 self.locToNodes[loc] = node
                 self.graph.addNode(node)
+        print "Added nodes."
 
         for i in xrange(self.height):
             for j in xrange(self.width):
                 loc = (i,j)
-                node = self.nodes[loc]
+                print loc
+                node = self.locToNodes[loc]
                 neighborCoords = self.getNeighborCoords(loc)
                 for coord in neighborCoords:
-                    edge = buildEdge(node, self.locToNodes[coord])
+                    edge = self.buildEdge(node, self.locToNodes[coord])
                     self.graph.addEdge(edge)
 
     def buildEdge(self, n1, n2):

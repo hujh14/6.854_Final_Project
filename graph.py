@@ -14,7 +14,10 @@ class Graph:
 
     def addEdge(self, edge):
         self.edges.add(edge)
-        self.outgoingEdges[edge.u].append(edge)
+        if edge.u in self.outgoingEdges.keys():
+            self.outgoingEdges[edge.u].append(edge)
+        else:
+            self.outgoingEdges[edge.u] = [edge]
 
     def randomNodes(self, n):
         return random.sample(self.nodes, n)

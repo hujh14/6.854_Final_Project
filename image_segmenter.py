@@ -1,4 +1,5 @@
-from ford_fulkerson import Flow_Network
+from ford_fulkerson import FlowNetwork
+from image_graph import ImageGraph
 
 class ImageSegmenter:
 
@@ -7,13 +8,14 @@ class ImageSegmenter:
 
         self.graph = ImageGraph(pixels)
 
-        self.solver = Flow_Network()
+        self.solver = FlowNetwork()
         # self.solver = Blocking_Flows()
 
         self.segmented_image = np.zeros((height, width))
 
     def segment(self):
         for i in xrange(10):
+            print "Segmenting... ", i
             r_nodes = self.graph.randomNodes(2)
             s = r_nodes[0]
             t = r_nodes[1]
