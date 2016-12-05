@@ -39,36 +39,26 @@ class FlowNetwork(object):
                         return result
         return None
 
-    # def find_BFS_path(self, source, sink): 
-    # #assumes unit distances, no sorting of queue
-    #     visited = {}
-    #     parent = {}
-    #     for node in self.nodes:
-    #         visited[node] = False
-    #     queue = []
-    #     queue.append(source)
-    #     visited[source] = True
+# def find_BFS_path(self, source, sink, inp_path): 
+#     #assumes unit distances, no sorting of queue
+#         queue = [(source, inp_path)]
         
-    #     while queue:
-    #         u = queue.pop(0)
-    #         if u == sink:
-    #             return self.make_BFS_Path(parent, source, sink)
-    #         for e in self.adj[source]:
-    #             residual = e.getCapacity() - self.flow[e]
-    #             if not(visited[e.getSink()]) and  residual > 0:
-    #                 queue.append(e.getSink())
-    #                 visited[e.getSink()] = True
-    #                 parent[e.getSink()] = e.getSource()
-    #     return None
-        
-    # def make_BFS_Path(self, parent, source, sink):
-    #     reversePath = [sink]
-    #     current = sink
-    #     while not(current == source):
-    #         current = parent[current]
-    #         reversePath.append(current)
-    #     path = reversePath.reverse()
-    #     return path
+#         while len(queue) > 0:
+#             (vertex, path) = queue.pop(0)
+#             for e in self.get_edges(vertex):
+#                 residual = e.getCapacity() - self.flow[e]
+#                 if residual > 0:
+#                     visited = False
+#                     for edge in path:
+#                         if edge.v == e.v:
+#                             visited = True
+#                             break
+#                     if not visited:
+#                         if e.v == sink:
+#                             return path + [e]
+#                         else:
+#                             queue.append((e.v, path + [e]))
+#         return None
  
     def max_flow(self, source, sink):
         print "Finding max flow..."
