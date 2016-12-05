@@ -22,7 +22,7 @@ class ImageSegmenter:
             # r_nodes = self.image_graph.randomNodes(2)
             # s = r_nodes[0]
             # t = r_nodes[1]
-            s_loc = (0,0)
+            s_loc = (2,2)
             t_loc = (16,16)
             s = self.image_graph.locToNodes[s_loc]
             t = self.image_graph.locToNodes[t_loc]
@@ -33,4 +33,5 @@ class ImageSegmenter:
             v = edge.v
             self.segmented_image[u.x][u.y] = 1.0
             self.segmented_image[v.x][v.y] = 1.0
+        return self.segmented_image
 
