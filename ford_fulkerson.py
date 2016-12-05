@@ -66,7 +66,6 @@ class FlowNetwork(object):
 #        self.flow[edge] = 0
 #        self.flow[redge] = 0
  
- 
     def find_DFS_path(self, source, sink, path):
         if source == sink:
             return path
@@ -77,46 +76,29 @@ class FlowNetwork(object):
                 if result != None:
                     return result
 
-    def find_BFS_path(self, source, sink): 
+    def find_BFS_path(self, source, sink, inp_path): 
     #assumes unit distances, no sorting of queue
-        visited = {}
-        parent = {}
-        for node in self.nodes:
-            visited[node] = False
-        queue = []
-        queue.append(source)
-        visited[source] = True
+        queue = [(source, inp_path)]
         
-        while queue:
-            u = queue.pop(0)
-            if u == sink:
-                return self.make_BFS_Path(parent, source, sink)
-            for e in self.get_edges(source):
-                residual = e.getCapacity() - self.flow[e]
-                if not(visited[e.getSink()]) and  residual > 0:
-                    queue.append(e.getSink())
-                    visited[e.getSink()] = True
-                    parent[e.getSink()] = e.getSource()
+        while len(queue) > 0:
+            (vertex, path) = queue.pop(0)
+            for e in self.get_edges(vertex):
+                if not(e in path):
+                    if e.v == sink:
+                        return path + [e]
+                    else:
+                        queue.append((e.v, path + [e]))
         return None
-        
-    def make_BFS_Path(self, parent, source, sink):
-        reversePath = [sink]
-        current = sink
-        while not(current == source):
-            current = parent[current]
-            reversePath.append(current)
-        path = reversePath.reverse()
-        return path
  
     def max_flow(self, source, sink):
-        path = self.find_DFS_path(source, sink, [])
+        path = self.find_BFS_path(source, sink, [])
         while path != None:
             residuals = [edge.getCapacity() - self.flow[edge] for edge in path]
             flow = min(residuals)
             for edge in path:
                 self.flow[edge] += flow
                 self.flow[edge.redge] -= flow
-            path = self.find_DFS_path(source, sink, [])
+            path = self.find_BFS_path(source, sink, [])
         return sum(self.flow[edge] for edge in self.get_edges(source))
         
     def find_blocking_edge(self, source, sink, blocking_edges, path):
