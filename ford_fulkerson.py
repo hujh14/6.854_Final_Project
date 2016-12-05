@@ -69,14 +69,14 @@ class FlowNetwork(object):
         return None
  
     def max_flow(self, source, sink):
-        path = self.find_BFS_path(source, sink, [])
+        path = self.find_DFS_path(source, sink, [])
         while path != None:
             residuals = [edge.getCapacity() - self.flow[edge] for edge in path]
             flow = min(residuals)
             for edge in path:
                 self.flow[edge] += flow
                 self.flow[edge.redge] -= flow
-            path = self.find_BFS_path(source, sink, [])
+            path = self.find_DFS_path(source, sink, [])
         return sum(self.flow[edge] for edge in self.get_edges(source))
         
     def find_blocking_edge(self, source, sink, blocking_edges, path):
