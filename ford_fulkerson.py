@@ -1,6 +1,7 @@
 from image_graph import *
 from node import *
 from edge import *
+from counter import *
 
 class FlowNetwork(object):
     def __init__(self):
@@ -68,15 +69,32 @@ class FlowNetwork(object):
                             queue.append((e.v, path + [e]))
         return None
  
-    def max_flow(self, source, sink):
-        path = self.find_DFS_path(source, sink, [])
+    def max_flow(self, source, sink, algorithm, verbose):
+        if algorithm == 'bfs':
+            path = self.find_BFS_path(source, sink, [])
+        elif algorithm == 'dfs':
+            path = self.find_DFS_path(source, sink, [])
+            
+        counter = Counter()
         while path != None:
             residuals = [edge.getCapacity() - self.flow[edge] for edge in path]
             flow = min(residuals)
             for edge in path:
                 self.flow[edge] += flow
                 self.flow[edge.redge] -= flow
-            path = self.find_DFS_path(source, sink, [])
+                
+            if algorithm == 'bfs': #must be better way to not repeat this...
+                path = self.find_BFS_path(source, sink, [])
+            elif algorithm == 'dfs':
+                path = self.find_DFS_path(source, sink, [])
+            counter.inc()
+            
+            if verbose: 
+                print "path length using BFS: " + str(len(path))
+            
+        if verbose:
+            print "Using DFS took " + str(counter.getCount()) + " augmentations."
+            
         return sum(self.flow[edge] for edge in self.get_edges(source))
         
     def find_blocking_edge(self, source, sink, blocking_edges, path):
@@ -92,9 +110,9 @@ class FlowNetwork(object):
             elif residual == 0:
                 blocking_edges.add(edge)                     
 
-    def get_min_cut(self, graph, source, sink):
+    def get_min_cut(self, graph, source, sink, algorithm, verbose):
         self.convertGraph(graph)
-        self.max_flow(source, sink)
+        self.max_flow(source, sink, algorithm, verbose)
         min_cut_edges = set()
         self.find_blocking_edge(source, sink, min_cut_edges, [])
         return min_cut_edges

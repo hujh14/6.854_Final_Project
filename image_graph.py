@@ -37,7 +37,7 @@ class ImageGraph:
         weight = 10
         (c1, c2, c3) = n1.color
         (d1, d2, d3) = n2.color
-        weight = weight - ((c1-d1)**2 + (c2-d2)**2 + (c3-d3)**2)/255./3. * 10
+        weight = weight - ((c1-d1)**2 + (c2-d2)**2 + (c3-d3)**2)/(255**2*3.) * 10
         return Edge(n1,n2,weight)
 
     def getNeighborCoords(self, loc):
