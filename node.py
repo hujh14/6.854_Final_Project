@@ -21,8 +21,8 @@ class Node:
         edge = Edge(self, node, w)
         self.edges.add(edge)
     
-    def getChildren(self):
-        return self.neighbors
+    # def getChildren(self):
+    #     return self.neighbors
         
-    def getOutgoingEdges(self):
-        return self.edges
+    # def getOutgoingEdges(self):
+    #     return self.edges

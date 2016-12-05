@@ -7,74 +7,45 @@ class FlowNetwork(object):
         self.adj = {}
         self.flow = {}
         self.nodes = set()
-
-        # for node in self.g.outgoingEdges.keys():
-        #     for edge in self.g.outgoingEdges[node]:
-        #         u = edge.u
-        #         v = edge.v
-
-        #         redge = Edge(u, v, 0)  
-        #         edge.redge = redge
-        #         redge.redge = edge
-
-        #         if not(self.g.outgoingEdges.has_key(u)):
-        #             self.adj[u] = []
-        #         if not(self.g.outgoingEdges.has_key(v)):
-        #             self.adj[v] = []
-        #         self.adj[u].append(edge)
-        #         self.adj[v].append(redge)
-        #         self.flow[edge] = 0
-        #         self.flow[redge] = 0
-
  
     def convertGraph(self, graph):
-        nodes = graph.getNodes()
-        for node in nodes:
-            self.add_vertex(node)
-            
-    def add_vertex(self, node):
-        for edge in node.getOutgoingEdges():
-            redge = Edge(edge.getSink(), edge.getSource(), 0)  
-            edge.redge = redge
-            redge.redge = edge
-            u = edge.getSource()
-            v = edge.getSink()
-            if not(self.adj.has_key(u)):
-                self.adj[u] = []
-            if not(self.adj.has_key(v)):
-                self.adj[v] = []
-            self.adj[u].append(edge)
-            self.adj[v].append(redge)
-            self.flow[edge] = 0
-            self.flow[redge] = 0
-        self.nodes.add(node)
+        for node in graph.nodes:
+            self.nodes.add(node)
+            for edge in graph.outgoingEdges[node]:
+                redge = Edge(edge.getSink(), edge.getSource(), 0)  
+                edge.redge = redge
+                redge.redge = edge
+                u = edge.getSource()
+                v = edge.getSink()
+                if not(self.adj.has_key(u)):
+                    self.adj[u] = []
+                if not(self.adj.has_key(v)):
+                    self.adj[v] = []
+                self.adj[u].append(edge)
+                self.adj[v].append(redge)
+                self.flow[edge] = 0
+                self.flow[redge] = 0
         
     def get_edges(self, node):
         return self.adj[node]
-
-### TO ADD EDGES, first use node.addNeighbor() functions then add_vertex to FlowNetwork
-### TODO: currently, node neighbors and flownetwork[node] neighbors not synched
-#    def add_edge(self, u, v, w):
-#        if u == v:
-#            raise ValueError("u == v")
-#        edge = Edge(u,v,w)
-#        redge = Edge(v,u,0)
-#        edge.redge = redge
-#        redge.redge = edge
-#        self.adj[u].append(edge)
-#        self.adj[v].append(redge)
-#        self.flow[edge] = 0
-#        self.flow[redge] = 0
  
     def find_DFS_path(self, source, sink, path):
+        print len(path)
         if source == sink:
             return path
         for edge in self.get_edges(source):
             residual = edge.getCapacity() - self.flow[edge]
-            if residual > 0 and edge not in path:
-                result = self.find_DFS_path( edge.getSink(), sink, path + [edge]) 
-                if result != None:
-                    return result
+            if residual > 0:
+                visited = False
+                for e in path:
+                    if edge.v == e.v:
+                        visited = True
+                        break
+                if not visited:
+                    result = self.find_DFS_path( edge.getSink(), sink, path + [edge]) 
+                    if result != None:
+                        return result
+        return None
 
     def find_BFS_path(self, source, sink, inp_path): 
     #assumes unit distances, no sorting of queue
