@@ -9,10 +9,12 @@ image_path = "./images/imagenet_32/003_ori.png"
 img = Image.open(image_path)
 pixels = np.array(img)
 
-algorithm = 'bfs'
+algorithm = 'dfs'
 verbose = True
 
-image_segmenter = ImageSegmenter(pixels)
+afn_func = 'squared_distance' # or squared_distance
+
+image_segmenter = ImageSegmenter(pixels, afn_func)
 segmented_image = image_segmenter.segment(algorithm, verbose)
 
 if verbose: 

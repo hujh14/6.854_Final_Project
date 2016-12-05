@@ -6,10 +6,7 @@ class Edge:
         self.v = v
         self.w = w
 
-    def computeWeight(self):
-        #computes weight of neighbor link for pixels
-        self.w = 1
-        return self.w
+        self.redge = None
     
     def getSource(self):
         return self.u
@@ -19,3 +16,8 @@ class Edge:
     
     def getCapacity(self):
         return self.w
+
+    def __str__(self):
+        u = str(self.u)
+        v = str(self.v)
+        return str((u,v, self.w))
