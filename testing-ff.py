@@ -1,4 +1,5 @@
 from ford_fulkerson import *
+from graph import *
 
 color = (5,5,5)
 
@@ -9,29 +10,37 @@ n3 = Node((0,3), color)
 n4 = Node((0,4), color)
 t = Node((0,100), color)
 
-s.addNeighborWithWeight(n1, 3)
-s.addNeighborWithWeight(n2, 20)
-n1.addNeighborWithWeight(n3, 10)
-n2.addNeighborWithWeight(n3, 5)
-n2.addNeighborWithWeight(n4, 11)
-n3.addNeighborWithWeight(t, 16)
-n4.addNeighborWithWeight(t, 4)
-n4.addNeighborWithWeight(n1, 8)
+edges = [
+Edge(s,n1,3),
+Edge(s, n2, 20),
+Edge(n1,n3, 10),
+Edge(n2,n3, 5),
+Edge(n2,n4, 11),
+Edge(n3,t, 16),
+Edge(n4, t, 4),
+Edge(n4, n1, 8)
+]
+
+g = Graph()
+
+g.addNode(s)
+g.addNode(n1)
+g.addNode(n2)
+g.addNode(n3)
+g.addNode(n4)
+g.addNode(t)
+
+for e in edges:
+    g.addEdge(e)
 
 
-g = FlowNetwork()
-g.add_vertex(s)
-g.add_vertex(n1)
-g.add_vertex(n2)
-g.add_vertex(n3)
-g.add_vertex(n4)
-g.add_vertex(t)
+fn = FlowNetwork()
+fn2 = FlowNetwork()
 
-print g.max_flow(s,t)
+fn.convertGraph(g)
+print fn.max_flow(s,t)
+cut = fn2.get_min_cut(g, s, t)
 
-g.clear_flow()
-
-cut = g.get_min_cut(s,t)
 cut_val = 0
 
 for edge in cut:

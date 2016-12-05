@@ -9,7 +9,7 @@ class FlowNetwork(object):
         self.nodes = set()
  
     def convertGraph(self, graph):
-        for node in graph.nodes:
+        for node in graph.outgoingEdges.keys():
             self.nodes.add(node)
             for edge in graph.outgoingEdges[node]:
                 redge = Edge(edge.getSink(), edge.getSource(), 0)  
@@ -54,11 +54,18 @@ class FlowNetwork(object):
         while len(queue) > 0:
             (vertex, path) = queue.pop(0)
             for e in self.get_edges(vertex):
-                if not(e in path):
-                    if e.v == sink:
-                        return path + [e]
-                    else:
-                        queue.append((e.v, path + [e]))
+                residual = e.getCapacity() - self.flow[e]
+                if residual > 0:
+                    visited = False
+                    for edge in path:
+                        if edge.v == e.v:
+                            visited = True
+                            break
+                    if not visited:
+                        if e.v == sink:
+                            return path + [e]
+                        else:
+                            queue.append((e.v, path + [e]))
         return None
  
     def max_flow(self, source, sink):
