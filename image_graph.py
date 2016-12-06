@@ -48,8 +48,15 @@ class ImageGraph:
         if afn_func == 'average_distance':
             average_distance = (np.abs(c1-d1) + np.abs(c2-d2) + np.abs(c3-d3))/3.
             weight = 10 - (average_distance)/255. * 10
-            edge = Edge(n1,n2,weight)
-            return edge
+            return Edge(n1,n2,weight)
+        if afn_func == 'binary':
+            test = 10 - ((c1-d1)**2 + (c2-d2)**2 + (c3-d3)**2)/(255**2*3.) * 10
+            w = 1000
+            if test > 2.5:
+                w = 1000
+            else: 
+                w = 1
+            return Edge(n1, n2, w)
             
 
     def getNeighborCoords(self, loc):
