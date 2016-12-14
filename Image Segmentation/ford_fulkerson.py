@@ -98,7 +98,8 @@ class FlowNetwork(object):
             counter.inc()
             
             if verbose and not path==None: 
-                print "path length using " + algorithm + ": " + str(len(path))
+                path_number += 1
+                # print "path length using " + algorithm + ": " + str(len(path))
             
         if verbose:
             print "Using DFS took " + str(counter.getCount()) + " augmentations."
