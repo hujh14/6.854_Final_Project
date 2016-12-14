@@ -1,0 +1,11 @@
+TODO:
+
+- more min cuts (Dinic, push relabel, blocking, etc)
+
+- Karger and variants
+
+- normalized min cuts
+
+- affinity function
+
+- decide how to measure running time, quality

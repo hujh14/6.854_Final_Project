@@ -5,7 +5,7 @@ from image_segmenter import ImageSegmenter
 import os
 
 
-image_path = "./images/imagenet_32/001_ori.png"
+image_path = "./images/imagenet_32/014_ori.png"
 img = Image.open(image_path)
 pixels = np.array(img)
 

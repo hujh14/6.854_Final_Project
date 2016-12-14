@@ -19,17 +19,18 @@ class ImageSegmenter:
     def segment(self, algorithm, verbose):
         # string algorithm 'bfs' or 'dfs'
         # boolean verbose dictates print statements or na
-        for i in xrange(1):
+        s_loc = (16,16)
+        t = [(30,16), (2, 5), (2, 24), (16, 31), (16, 2)]
+        min_cut = set()
+        for loc in t:
             if verbose:
-                print "Segmenting... ", i
+                print "Segmenting... ", s_loc, " to ", loc
             # r_nodes = self.image_graph.randomNodes(2)
             # s = r_nodes[0]
             # t = r_nodes[1]
-            s_loc = (2,2)
-            t_loc = (16,16)
             s = self.image_graph.locToNodes[s_loc]
-            t = self.image_graph.locToNodes[t_loc]
-            min_cut = self.solver.get_min_cut(self.image_graph.graph, s, t, algorithm, verbose)
+            t = self.image_graph.locToNodes[loc]
+            min_cut.update(self.solver.get_min_cut(self.image_graph.graph, s, t, algorithm, verbose))
 
         for edge in min_cut:
             u = edge.u
